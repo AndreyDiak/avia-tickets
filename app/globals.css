@@ -2,26 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+	.mainButton {
+		@apply bg-[#5c87db] hover:bg-[#3E67B7] text-sm text-white px-4 py-2 rounded-md;
+	}
+	.mainInput {
+		@apply relative w-[209px] rounded-lg text-gray-400 focus:outline-none cursor-pointer py-2 pr-3 z-10;
+	}
+}
+
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+	--bg-main: #5c87db;
+	--bg-secondary: #7079994d;
 }
