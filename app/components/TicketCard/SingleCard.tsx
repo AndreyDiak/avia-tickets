@@ -1,3 +1,4 @@
+'use client';
 import { useTicket } from '@/app/hooks';
 import Image from 'next/image';
 import { useState } from 'react';

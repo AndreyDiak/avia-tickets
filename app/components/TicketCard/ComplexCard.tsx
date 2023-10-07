@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import { SingleCard } from '.';
 import { TicketPrice } from './TicketPrice';
