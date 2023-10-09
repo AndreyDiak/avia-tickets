@@ -42,7 +42,9 @@ export function useTicketForm(): UseTicketForm {
 				...prev,
 				[field]: value,
 			}));
+
 			if (touchedFields[field]) return;
+			// если мы первый раз обновляем состояние поля
 			setTouchedFields((prev) => ({
 				...prev,
 				[field]: true,
@@ -54,6 +56,9 @@ export function useTicketForm(): UseTicketForm {
 	const onSubmit = useCallback(() => {
 		// если вдруг нажали на submit без touch-а любого из полей
 		if (!touchedFields.cityFrom || !touchedFields.cityTo || !touchedFields.departureDate) {
+			/*
+			 * Сетаем все поля в true чтобы подсветить все ошибки...
+			 */
 			setTouchedFields((prev) => ({
 				...prev,
 				cityFrom: true,

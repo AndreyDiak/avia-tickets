@@ -10,11 +10,11 @@ export const TicketLine = React.memo(({ airportFrom, airportTo }: Props) => {
 	return (
 		<div className="pt-4">
 			<span className="w-[270px] h-px bg-[#B7BAC1] relative block">
-				<span className="absolute text-[#B7BAC1] -left-4 bottom-0 translate-y-[3px] flex flex-col justify-center items-center">
+				<span className="ticketLineBlock -left-4">
 					<p>{airportFrom}</p>
 					<span className="w-2 h-2 rounded-full bg-[#B7BAC1] block"></span>
 				</span>
-				<span className="absolute text-[#B7BAC1] -right-4 bottom-0 translate-y-[3px] flex flex-col justify-center items-center">
+				<span className="ticketLineBlock -right-4">
 					<p>{airportTo}</p>
 					<span className="w-2 h-2 rounded-full bg-[#B7BAC1] block"></span>
 				</span>

@@ -29,7 +29,9 @@ export const TicketTimeList = React.memo(({ list, active, setActive }: Props) =>
 						)}
 						onClick={() => setActive(time)}
 					>
-						<span className={`text-lg font-semibold ${textColor}`}>{time.start}</span>
+						<span className={classNames('text-lg font-semibold', textColor)}>
+							{time.start}
+						</span>
 						<span className={textColor}>-</span>
 						<span className={classNames(textColor, 'text-sm')}>{time.end}</span>
 					</div>

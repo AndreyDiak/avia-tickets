@@ -77,7 +77,7 @@ export const SingleCard = ({ isSingle, direction }: Props) => {
 				<Image src={logo} alt={'S7 Logo'} />
 				<h2 className="mt-2">S7 Airlines</h2>
 			</div>
-			<div className={`flex gap-6 border-r border-[#DDE3EE] pr-5 relative py-12`}>
+			<div className="flex gap-6 border-r border-[#DDE3EE] pr-5 relative py-12">
 				{renderLine()}
 
 				<div className="flex flex-col space-y-6">
