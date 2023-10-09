@@ -21,13 +21,20 @@ const initialValue: Ticket = {
 	returnDate: null,
 };
 
+const initialTouchedValues: Record<keyof Ticket, boolean> = {
+	cityFrom: false,
+	cityTo: false,
+	departureDate: false,
+	returnDate: false,
+};
+
 export function useTicketForm(): UseTicketForm {
 	const dispatch = useDispatch();
 
 	const router = useRouter();
 
 	const [ticket, setTicket] = useState<Ticket>(initialValue);
-	const [isTouched, setIsTouched] = useState(false);
+	const [touchedFields, setTouchedFields] = useState(initialTouchedValues);
 
 	const onChange = useCallback(
 		<T extends keyof Ticket>(field: T, value: Ticket[T]) => {
@@ -35,16 +42,24 @@ export function useTicketForm(): UseTicketForm {
 				...prev,
 				[field]: value,
 			}));
-			if (isTouched) return;
-			setIsTouched(true);
+			if (touchedFields[field]) return;
+			setTouchedFields((prev) => ({
+				...prev,
+				[field]: true,
+			}));
 		},
-		[isTouched],
+		[touchedFields],
 	);
 
 	const onSubmit = useCallback(() => {
 		// если вдруг нажали на submit без touch-а любого из полей
-		if (!isTouched) {
-			setIsTouched(true);
+		if (!touchedFields.cityFrom || !touchedFields.cityTo || !touchedFields.departureDate) {
+			setTouchedFields((prev) => ({
+				...prev,
+				cityFrom: true,
+				cityTo: true,
+				departureDate: true,
+			}));
 		}
 		// если не все поля заполнены...
 		if (ticket.cityFrom === '' || ticket.cityTo === '' || !ticket.departureDate) {
@@ -53,22 +68,39 @@ export function useTicketForm(): UseTicketForm {
 		// если все хорошо
 		dispatch(setTicketAction(ticket));
 		router.push('/avia/info');
-	}, [dispatch, isTouched, router, ticket]);
+	}, [
+		dispatch,
+		router,
+		ticket,
+		touchedFields.cityFrom,
+		touchedFields.cityTo,
+		touchedFields.departureDate,
+	]);
 
 	const errors = useMemo(() => {
-		if (!isTouched) {
-			return {} as FormErrors;
-		}
+		const cityFromError =
+			touchedFields.cityFrom && (ticket.cityFrom === '' || !isNaN(Number(ticket.cityFrom)));
+
+		const cityToError =
+			touchedFields.cityTo && (ticket.cityTo === '' || !isNaN(Number(ticket.cityTo)));
+
 		return {
-			cityFrom: ticket.cityFrom === '' || !isNaN(Number(ticket.cityFrom)),
-			cityTo: ticket.cityTo === '' || !isNaN(Number(ticket.cityTo)),
-			departureDate: !Boolean(ticket.departureDate),
+			cityFrom: cityFromError,
+			cityTo: cityToError,
+			departureDate: touchedFields.departureDate && !Boolean(ticket.departureDate),
 		};
-	}, [isTouched, ticket.cityFrom, ticket.cityTo, ticket.departureDate]);
+	}, [
+		ticket.cityFrom,
+		ticket.cityTo,
+		ticket.departureDate,
+		touchedFields.cityFrom,
+		touchedFields.cityTo,
+		touchedFields.departureDate,
+	]);
 
 	const isAbleToSubmit = useMemo(
-		() => !isTouched || !Object.values(errors).some((item) => Boolean(item)),
-		[errors, isTouched],
+		() => !Object.values(errors).some((item) => Boolean(item)),
+		[errors],
 	);
 
 	return useMemo(() => {
